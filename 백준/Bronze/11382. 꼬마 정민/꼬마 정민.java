@@ -1,0 +1,18 @@
+import java.io.*;
+import java.util.*;
+
+public class Main{
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        
+        Long a = Long.parseLong(st.nextToken());
+        Long b = Long.parseLong(st.nextToken());
+        Long c = Long.parseLong(st.nextToken());
+        
+        sb.append(a+b+c).append('\n');
+        System.out.print(sb);
+    }
+}
