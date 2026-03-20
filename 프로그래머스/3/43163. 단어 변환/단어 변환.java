@@ -1,31 +1,51 @@
+import java.util.*;
 class Solution {
     boolean canChange(String a, String b){
         int diff = 0;
-        for(int i=0; i<a.length(); i++){
+        for(int i=0; i<a.length();i++){
             if(a.charAt(i) != b.charAt(i)) diff++;
+            if(diff > 2) return false;
+            
         }
-        if(diff > 1) return false;
-        
         return diff == 1;
     }
-    int dfs(String cur, String target, String[] words, boolean[] visited, int depth){
-        if(cur.equals(target)) return depth;
-        int min = Integer.MAX_VALUE;
-        
-        for(int i=0; i<words.length; i++){
-            if(!visited[i] && canChange(cur,words[i])){
-                visited[i] = true;
-                min = Math.min(min,dfs(words[i],target,words,visited,depth+1));
-                visited[i] = false;
+    public int solution(String begin, String target, String[] words) {
+        boolean hasTarget = false;
+        for(String w: words){
+            if(w.equals(target)){
+                hasTarget = true;
+                break;
             }
         }
-        return min;
+        if(!hasTarget) return 0;
         
-    }
-    public int solution(String begin, String target, String[] words) {
         boolean[] visited = new boolean[words.length];
+        Deque<int[]> q = new ArrayDeque<>();
         
-        int answer = dfs(begin,target,words,visited,0);
-        return answer == Integer.MAX_VALUE ? 0 : answer;
+        for(int i=0; i<words.length; i++){
+            if(canChange(begin,words[i])) {
+                visited[i] = true;
+                q.offer(new int[]{i,1});
+            }
+        }
+        
+        while(!q.isEmpty()){
+            int[] curr = q.poll();
+            int idx = curr[0];
+            int depth = curr[1];
+            
+            if(words[idx].equals(target)) return depth;
+            
+            for(int i=0; i<words.length;i++){
+                if(!visited[i] && canChange(words[idx],words[i])){
+                    visited[i] = true;
+                    q.offer(new int[]{i,depth+1});
+                }
+            }
+        }
+        
+
+        return 0;
     }
+    
 }
